@@ -2,7 +2,7 @@
 
 ## Playblast Tool
 
-![](assets/playblastToolpng.png)
+![PlayblastTool](assets/playblastToolpng.png)
 
 * This tool is made to make it eaiser to create a playblast with a set format.
     1. This format includes these settings;
