@@ -8,6 +8,7 @@
 
 * This tool is made to make it eaiser to create a playblast with a set format.
     1. This format includes these settings;
+        
         ![](assets/PlayblastToolSettings.PNG)
 
 * First thing you'll need to do is add the tool to your maya file. 
