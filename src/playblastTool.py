@@ -24,6 +24,7 @@ class MayaPlayblastWidget(QWidget):
         super().__init__()
         self.mayaPlayblast = MayaPlayblastTool()
         self.masterLayout = QVBoxLayout()
+        self.setWindowTitle("Playblast Tool!")
         self.setLayout(self.masterLayout)
         self.setFixedWidth(500)
 
