@@ -4,23 +4,20 @@ from PySide2.QtCore import Signal
 from PySide2.QtGui import QIntValidator, QRegExpValidator
 from PySide2.QtWidgets import QWidget, QAbstractItemView, QCheckBox, QFileDialog, QHBoxLayout, QLabel, QLineEdit, QListWidget, QMessageBox, QPushButton, QVBoxLayout, QWidget
 
-
-class AnimClip:
-    def __init__(self):
-        self.frameStart = int(mc.playbackOptions(q = True, min = True))
-        self.frameEnd = int(mc.playbackOptions(q = True, max = True))
-        self.subfix = ""
-        self.shouldExport = True
-
 class MayaPlayblastTool:
     def __init__(self):
         self.saveDir = ""
+        self.saveName = ""
 
     def SetSaveDir(self, newSaveDir):
         self.saveDir = newSaveDir
-    
-    def SaveFiles(self):
-        pass
+
+    def SetSaveName(self, newName):
+        self.saveName = newName
+
+    def GetSavePath(self):
+        path = os.path.join(self.saveDir, self.saveName + ".mov")
+        return os.path.normpath(path)
 
 class MayaPlayblastWidget(QWidget):
     def __init__(self):
@@ -28,7 +25,7 @@ class MayaPlayblastWidget(QWidget):
         self.mayaPlayblast = MayaPlayblastTool()
         self.masterLayout = QVBoxLayout()
         self.setLayout(self.masterLayout)
-        self.setFixedWidth(250)
+        self.setFixedWidth(500)
 
         playblastBtn = QPushButton("Playblast Current Window")
         playblastBtn.clicked.connect(self.PlayblastBtnClicked)
@@ -57,25 +54,30 @@ class MayaPlayblastWidget(QWidget):
         self.savePreviewLabel = QLabel()
         self.masterLayout.addWidget(self.savePreviewLabel)
 
-        saveBtn = QPushButton("Save Files")
-        saveBtn.clicked.connect(self.mayaPlayblast.SaveFiles)
-        self.masterLayout.addWidget(saveBtn)
+    def UpdateSavePreview(self):
+        previewText = ""
+        self.savePreviewLabel.setText(previewText)
+        self.adjustSize()
 
     def PlayblastBtnClicked(self):
-        filename = "D:/Profile Redirect/jmhopkin/Desktop/FinalGameplaySetAloy/AloyGamplaySet/movies/testingPlayblastTool.mov"
-        mc.playblast(format = "qt", filename = filename, sequenceTime = 0, clearCache = 1, viewer = 1, showOrnaments = 1, fp = 4, percent = 100, compression = "H.264", quality = 100, forceOverwrite = 1)
+        print(f"saving to: {self.mayaPlayblast.GetSavePath()}")
+        mc.playblast(format = "qt", filename = self.mayaPlayblast.GetSavePath(), sequenceTime = 0, clearCache = 1, viewer = 1, showOrnaments = 1, fp = 4, percent = 100, compression = "H.264", quality = 100, forceOverwrite = 1)
 
     def FileNameChanged(self, newName):
-        self.mayaPlayblast.fileName = newName
+        self.mayaPlayblast.SetSaveName(newName)
+        self.UpdateSavePreview()
 
     def SetSaveDirBtnClicked(self):
+        # path = mc.fileDialog2(dir = "~/", dialogStyle = 2, fileMode = 3)
         # This selects folders through Maya 
             # path = mc.fileDialog2(dir = "~/", dialogStyle = 2, fileMode = 3)
 
         # This selects folders through Windows. This is a better option as it doesn't rely on Maya
         dir = QFileDialog().getExistingDirectory()
-        self.mayaPlayblast.saveDir = dir
+        self.mayaPlayblast.SetSaveDir(dir)
         self.saveDirLineEdit.setText(dir)
+        self.UpdateSavePreview()
+
 
 mayaPlayblastWidget = MayaPlayblastWidget()
 mayaPlayblastWidget.show()
