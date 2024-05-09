@@ -62,7 +62,7 @@ class MayaPlayblastWidget(QWidget):
 
     def PlayblastBtnClicked(self):
         print(f"saving to: {self.mayaPlayblast.GetSavePath()}")
-        mc.playblast(format = "qt", filename = self.mayaPlayblast.GetSavePath(), sequenceTime = 0, clearCache = 1, viewer = 1, showOrnaments = 1, fp = 4, percent = 100, compression = "H.264", quality = 100, forceOverwrite = 1)
+        mc.playblast(format = "qt", filename = self.mayaPlayblast.GetSavePath(), sequenceTime = 0, clearCache = 1, viewer = 1, showOrnaments = 1, fp = 4, percent = 100, compression = "H.264", quality = 100, widthHeight = (1920, 1080), forceOverwrite = 1)
 
     def FileNameChanged(self, newName):
         self.mayaPlayblast.SetSaveName(newName)
