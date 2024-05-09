@@ -2,7 +2,9 @@
 
 ## Playblast Tool
 
-![PlayblastTool](assets/PlayblastToolPNG.PNG)
+<div style="text-align:center">
+    <img src= "assets/PlayblastToolPNG.PNG" alt="PlayblastToolImage">
+</div>
 
 * This tool is made to make it eaiser to create a playblast with a set format.
     1. This format includes these settings;
